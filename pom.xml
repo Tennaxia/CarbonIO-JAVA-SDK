@@ -4,14 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>tennaxia.carboneio</groupId>
-    <artifactId>api-carbone-client</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.tennaxia.carbone</groupId>
+    <artifactId>carbone-sdk-java</artifactId>
+    <version>1.0.0-RC1</version>
     <packaging>jar</packaging>
 
     <name>Carbone.io java SDK</name>
-    <description>A java implementation of the api from Carbone.io done by Tennaxia developement team</description>
+    <description>A java implementation of the api from Carbone.io done by Tennaxia development team</description>
     <url>https://carbone.io/</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
     <developers>
         <developer>
@@ -36,6 +43,7 @@
         <lombok.version>1.18.24</lombok.version>
         <feign.client.version>11.0</feign.client.version>
         <feign.form.version>3.8.0</feign.form.version>
+        <junitVersion>4.13.1</junitVersion>
     </properties>
 
     <build>
@@ -114,6 +122,35 @@
             <groupId>io.github.openfeign.form</groupId>
             <artifactId>feign-form</artifactId>
             <version>${feign.form.version}</version>
+        </dependency>
+
+        <!--  test   -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junitVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.23.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>4.1.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

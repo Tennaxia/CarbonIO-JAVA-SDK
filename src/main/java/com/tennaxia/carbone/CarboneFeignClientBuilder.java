@@ -1,4 +1,4 @@
-package tennaxia.carboneio;
+package com.tennaxia.carbone;
 
 import static feign.Logger.Level.FULL;
 

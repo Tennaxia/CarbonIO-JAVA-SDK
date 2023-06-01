@@ -1,4 +1,4 @@
-package tennaxia.carboneio;
+package com.tennaxia.carbone;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

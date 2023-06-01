@@ -1,43 +1,56 @@
-# api-carbone-client
+# Carbone Cloud API Java SDK
 
-## 0 - install dependencies
+Based on API from [Carbone.io](https://carbone.io/api-reference.html)
 
-add this to your project's pom.xml : 
+## Install
 
-```
-<dependencies>
-    <groupId>tennaxia.carboneio</groupId>
-    <artifactId>api-carbone-client</artifactId>
-    <version>1.0.0</version>
-</dependencies>
-```
+With Maven add this to your project's pom.xml: 
 
-## 1 - initialize API services
-
-To initialize your services, you need to instantiate CarboneIOServices with your product key token and version :
-
-```
-CarboneIOServices carboneServices = new CarboneIOServices(token, version)
+```xml
+<dependency>
+    <groupId>com.tennaxia.carbone</groupId>
+    <artifactId>carbone-sdk-java</artifactId>
+    <version>1.0.0-RC1</version>
+</dependency>
 ```
 
-## 2 - Using API
+With Gradle :
 
-now with the instantiated object you can use all carbone.io services :
+```groovy
+implementation 'com.tennaxia.carbone:carbone-sdk-java:1.0.0-RC1'
+```
+
+## Initialize API services
+
+To initialize your services, you need to create an instance of `ICarboneServices` by using `CarboneServicesFactory`, passing your token key product and service's version (current is 4):
+
+```java
+ICarboneServices carboneServices = CarboneServicesFactory.CARBONE_SERVICES_FACTORY_INSTANCE.create(token, version);
+```
+
+You can also use your own instance of `ICarboneTemplateClient` and `ICarboneRenderClient`
+```java
+ICarboneServices carboneServices = CarboneServicesFactory.CARBONE_SERVICES_FACTORY_INSTANCE.create(carboneTemplateClient, carboneRenderClient);
+```
+
+## Usage
+
+Now with the instantiated object you can use all carbone.io services:
 
 
-### 2.1 upload template
+### Upload template
 
-You need to send the template file content in byte[], it will return an `Optional` containing templateId if upload is successful.
+You need to send the template file content in `byte[]`, it will return an `Optional` containing `templateId` if upload is successful.
 
 ```java
 Path testFilePath = Paths.get("template_carbone.odt");
-Optional<String> templateId = service.addTemplate(Files.readAllBytes(testFilePath));
+Optional<String> templateId = carboneServices.addTemplate(Files.readAllBytes(testFilePath));
 ```
 
 ![template](./documentation/template.png)
 
 
-### 2.2 render report
+### Render report
 
 You can now render your report with a Json like object (refer to carbone.io documentation for syntax details):
 
@@ -63,32 +76,37 @@ public class MyJsonObject {
 }
 ```
 
-then calling render with template id :
+then calling render with template id:
 
 ```java
 MyJsonObject jsonObj = new MyJsonObject("key one", "key two", "key three");
 /**
  *  {
- *      test_key1 : "key one",
- *      test_key2 : "key two",
- *      key_object : {
- *          test_key : "key three"
+ *      test_key1: "key one",
+ *      test_key2: "key two",
+ *      key_object: {
+ *          test_key: "key three"
  *      }
  **/
 
 String renderId = carboneServices.renderReport(jsonObj, templateId.get());
 ```
-By default rendered report will be in pdf format and with option UseLosslessCompression at false
-You can also call render with additional option for pdf rendering (see : [pdf Format Options](https://carbone.io/api-reference.html#pdf-export-filter-options))
-To do so, you need to extend CarboneFormatOptions the add attributes matching options (case sensitive)
+By default, rendered report will be in PDF and with option `UseLosslessCompression` at false.
+You can also call render with additional option for PDF rendering (see: [PDF export filter options](https://carbone.io/api-reference.html#pdf-export-filter-options)).
+To do so, you need to add a `Map<String, Object>` to method call 
 
 ```java
+Map<String, Object> additionalOptions = Map.ofEntries(
+    Map.entry("UseLosslessCompression", true),
+    Map.entry("DocumentOpenPassword", "password"),
+    Map.entry("EncryptFile", true)
+    );
 String renderId = carboneServices.renderReport(jsonObj, templateId.get(), additionalOptions);
 ```
 
-### 2.3 download report
+### Download report
 
-you can now download your report :
+You can now download your report:
 
 ```java
 File outputFile = new File("report.pdf");

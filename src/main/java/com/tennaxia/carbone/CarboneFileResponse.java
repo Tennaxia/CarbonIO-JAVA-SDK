@@ -1,4 +1,4 @@
-package tennaxia.carboneio;
+package com.tennaxia.carbone;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

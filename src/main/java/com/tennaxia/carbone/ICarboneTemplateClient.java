@@ -1,11 +1,10 @@
-package tennaxia.carboneio;
+package com.tennaxia.carbone;
 
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
 
-interface CarboneTemplateClient {
-
+public interface ICarboneTemplateClient {
     @RequestLine("POST")
     @Headers("Content-Type: multipart/form-data")
     CarboneResponse addTemplate(@Param("template") byte[] templateFile) throws CarboneException;
